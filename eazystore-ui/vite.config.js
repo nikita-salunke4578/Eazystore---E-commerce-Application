@@ -24,6 +24,17 @@ export default defineConfig({
     },
   },
   base: "/",
-  server: { port: 5173 },
+  server: {
+    port: 5173,
+    proxy: {
+      // Proxy API requests to the backend during development.
+      // Adjust the target if your Spring Boot app runs on a different port.
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   preview: { port: 5173 },
 });

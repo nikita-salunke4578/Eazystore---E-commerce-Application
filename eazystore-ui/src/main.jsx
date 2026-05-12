@@ -34,6 +34,7 @@ import Register, { registerAction } from "./components/Register.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import OrderSuccess from "./components/OrderSuccess.jsx";
+import Chatbot from "./components/Chatbot.jsx";
 import store from "./store/store.js";
 import { Provider } from "react-redux";
 
@@ -52,6 +53,7 @@ const routeDefinitions = createRoutesFromElements(
       action={contactAction}
       loader={contactLoader}
     />
+    <Route path="/support" element={<Chatbot />} />
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/register" element={<Register />} action={registerAction} />
     <Route path="/cart" element={<Cart />} />

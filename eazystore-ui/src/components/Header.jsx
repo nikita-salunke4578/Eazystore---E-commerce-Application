@@ -120,6 +120,16 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
+              <NavLink
+                to="/support"
+                className={({ isActive }) =>
+                  isActive ? `underline ${navLinkClass}` : navLinkClass
+                }
+              >
+                Support
+              </NavLink>
+            </li>
+            <li>
               {isAuthenticated ? (
                 <div className="relative" ref={userMenuRef}>
                   <button
