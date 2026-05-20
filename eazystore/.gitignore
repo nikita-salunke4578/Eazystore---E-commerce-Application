@@ -33,3 +33,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment & API ###
+.env
+.env.local
+.env.*.local
+*.properties
+!src/main/resources/stripe.properties
