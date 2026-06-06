@@ -40,3 +40,4 @@ build/
 .env.*.local
 *.properties
 !src/main/resources/stripe.properties
+resource/application.properties
