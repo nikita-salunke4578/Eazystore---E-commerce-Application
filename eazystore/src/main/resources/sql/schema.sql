@@ -1,3 +1,6 @@
+create database eazystore;
+use eazystore;
+
 CREATE TABLE IF NOT EXISTS products
 (
     product_id  BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +40,6 @@ CREATE TABLE IF NOT EXISTS customers
     created_by    VARCHAR(20)                           NOT NULL,
     updated_at    TIMESTAMP   DEFAULT NULL,
     updated_by    VARCHAR(20) DEFAULT NULL,
-    UNIQUE KEY unique_email (email),
     UNIQUE KEY unique_mobile_number (mobile_number)
     );
 
@@ -81,11 +83,6 @@ VALUES ('ROLE_USER', CURRENT_TIMESTAMP, 'DBA');
 INSERT INTO roles (name, created_at, created_by)
 VALUES ('ROLE_ADMIN', CURRENT_TIMESTAMP, 'DBA');
 
-INSERT INTO roles (name, created_at, created_by)
-VALUES ('ROLE_OPS_ENG', CURRENT_TIMESTAMP, 'DBA');
-
-INSERT INTO roles (name, created_at, created_by)
-VALUES ('ROLE_QA_ENG', CURRENT_TIMESTAMP, 'DBA');
 
 CREATE TABLE IF NOT EXISTS orders
 (
@@ -115,4 +112,31 @@ CREATE TABLE IF NOT EXISTS order_items
     updated_by      VARCHAR(20)    DEFAULT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
-    );
+    );# Stage 1 — build with Maven + JDK 21
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+WORKDIR /workspace
+
+# copy only what is needed to take advantage of Docker layer cache
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+RUN mvn -B -ntp dependency:go-offline
+
+COPY src ./src
+
+# Build the fat jar (skip tests to speed builds; remove -DskipTests to run tests)
+RUN mvn -B -DskipTests package
+
+# Stage 2 — runtime image (JRE)
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+
+# Copy the built jar (adjust pattern if your artifact name is fixed)
+COPY --from=builder /workspace/target/*.jar ./app.jar
+
+EXPOSE 8080
+
+# Allow Java options via env var
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]

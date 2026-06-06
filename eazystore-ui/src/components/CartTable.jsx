@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function CartTable() {
   const dispatch = useDispatch();
@@ -19,9 +20,9 @@ export default function CartTable() {
 
   const updateCartQuantity = (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
-    dispatch(
-      addToCart({ product, quantity: quantity - (product?.quantity || 0) })
-    );
+    const quantityChange = quantity - (product?.quantity || 0);
+    dispatch(addToCart({ product, quantity: quantityChange }));
+    toast.success(`Quantity updated to ${quantity}!`);
   };
 
   return (

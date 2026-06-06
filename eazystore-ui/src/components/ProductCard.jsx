@@ -3,6 +3,7 @@ import Price from "./Price";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cart-slice";
+import { toast } from "react-toastify";
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -32,7 +33,10 @@ export default function ProductCard({ product }) {
           </div>
           <button
             className="bg-primary dark:bg-light text-white dark:text-primary font-medium text-sm py-2 px-4 rounded-md hover:cursor-pointer"
-            onClick={() => dispatch(addToCart({ product, quantity: 1 }))}
+            onClick={() => {
+              dispatch(addToCart({ product, quantity: 1 }));
+              toast.success(`${product.name} added to cart!`);
+            }}
           >
             Add to Cart
           </button>

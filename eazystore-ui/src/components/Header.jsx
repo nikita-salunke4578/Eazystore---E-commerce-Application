@@ -119,16 +119,7 @@ export default function Header() {
                 Contact
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/support"
-                className={({ isActive }) =>
-                  isActive ? `underline ${navLinkClass}` : navLinkClass
-                }
-              >
-                Support
-              </NavLink>
-            </li>
+
             <li>
               {isAuthenticated ? (
                 <div className="relative" ref={userMenuRef}>
@@ -137,11 +128,10 @@ export default function Header() {
                     className="relative text-primary"
                   >
                     <span className={navLinkClass}>
-                      {`Hello ${
-                        user.name.length > 5
-                          ? `${user.name.slice(0, 5)}...`
-                          : user.name
-                      }`}
+                      {`Hello ${user.name.length > 5
+                        ? `${user.name.slice(0, 5)}...`
+                        : user.name
+                        }`}
                     </span>
                     <FontAwesomeIcon
                       icon={faAngleDown}
@@ -217,17 +207,19 @@ export default function Header() {
                 </NavLink>
               )}
             </li>
-            <li>
-              <Link to="/cart" className=" relative text-primary py-2">
-                <FontAwesomeIcon
-                  icon={faShoppingBasket}
-                  className="text-primary dark:text-light w-6"
-                />
-                <div className="absolute -top-2 -right-6 text-xs bg-yellow-400 text-black font-semibold rounded-full px-2 py-1 leading-none">
-                  {totalQuantity}
-                </div>
-              </Link>
-            </li>
+            {isAuthenticated && (
+              <li>
+                <Link to="/cart" className=" relative text-primary py-2">
+                  <FontAwesomeIcon
+                    icon={faShoppingBasket}
+                    className="text-primary dark:text-light w-6"
+                  />
+                  <div className="absolute -top-2 -right-6 text-xs bg-yellow-400 text-black font-semibold rounded-full px-2 py-1 leading-none">
+                    {totalQuantity}
+                  </div>
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

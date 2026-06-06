@@ -21,10 +21,11 @@ import { contactAction } from "./components/Contact.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import CheckoutForm from "./components/CheckoutForm.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import Profile, {
+import Profile from "./components/Profile.jsx";
+import {
   profileAction,
   profileLoader,
-} from "./components/Profile.jsx";
+} from "./components/profileActions.js";
 import Orders, { ordersLoader } from "./components/Orders.jsx";
 import AdminOrders, {
   adminOrdersLoader,
@@ -34,12 +35,11 @@ import Register, { registerAction } from "./components/Register.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import OrderSuccess from "./components/OrderSuccess.jsx";
-import Chatbot from "./components/Chatbot.jsx";
 import store from "./store/store.js";
 import { Provider } from "react-redux";
 
 const stripePromise = loadStripe(
-  "pk_test_51RJQvF4PbYqEP0SGCcnUiXIBFtwmjlfv7CvYdwgLRyrs3pLxejSAYED3goAAkxwKVkgP70GvS0LkzhIHWSfpHWYE00jR1SrCza"
+  "pk_test_51T8aq5QnTnlcvkr55PPtcInLwKgca5Y2VwnuPlZX488a8Yqb1j7iBof3GDEd1RKpnjzZtDkQdus6hIFdLlOwo3xE00nFFqfJI2"
 );
 
 const routeDefinitions = createRoutesFromElements(
@@ -53,7 +53,6 @@ const routeDefinitions = createRoutesFromElements(
       action={contactAction}
       loader={contactLoader}
     />
-    <Route path="/support" element={<Chatbot />} />
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/register" element={<Register />} action={registerAction} />
     <Route path="/cart" element={<Cart />} />

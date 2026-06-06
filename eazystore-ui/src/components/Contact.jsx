@@ -15,11 +15,20 @@ export default function Contact() {
   const contactInfo = useLoaderData();
   const actionData = useActionData();
   const formRef = useRef(null);
+  const toastShownRef = useRef(false);
   const navigation = useNavigation();
   const submit = useSubmit();
   const isSubmitting = navigation.state === "submitting";
+
   useEffect(() => {
-    if (actionData?.success) {
+    if (isSubmitting) {
+      toastShownRef.current = false; // Reset when submitting starts
+    }
+  }, [isSubmitting]);
+
+  useEffect(() => {
+    if (actionData?.success && !toastShownRef.current) {
+      toastShownRef.current = true;
       formRef.current?.reset();
       toast.success("Your message has been submitted successfully!");
     }
@@ -203,8 +212,8 @@ export async function contactAction({ request, params }) {
     }
     throw new Response(
       error.response?.data?.errorMessage ||
-        error.message ||
-        "Failed to submit your message. Please try again.",
+      error.message ||
+      "Failed to submit your message. Please try again.",
       { status: error.status || 500 }
     );
   }
@@ -217,8 +226,8 @@ export async function contactLoader() {
   } catch (error) {
     throw new Response(
       error.response?.data?.errorMessage ||
-        error.message ||
-        "Failed to fetch profile details. Please try again.",
+      error.message ||
+      "Failed to fetch profile details. Please try again.",
       { status: error.status || 500 }
     );
   }

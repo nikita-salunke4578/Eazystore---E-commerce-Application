@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cart-slice";
+import { toast } from "react-toastify";
 
 export default function ProductDetail() {
   const location = useLocation();
@@ -24,6 +25,7 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     if (quantity < 1) return;
     dispatch(addToCart({ product, quantity }));
+    toast.success(`Added ${quantity} item(s) to cart!`);
   };
 
   const handleMouseMove = (e) => {

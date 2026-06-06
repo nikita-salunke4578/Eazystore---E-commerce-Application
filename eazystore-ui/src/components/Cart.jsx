@@ -43,23 +43,33 @@ export default function Cart() {
               >
                 Back to Products
               </Link>
-              {/* Proceed to Checkout Button */}
-              <Link
-                to={isAddressIncomplete ? "#" : "/checkout"}
-                className={`py-2 px-4 text-xl font-semibold rounded-sm flex justify-center items-center transition
-                                    ${
-                                      isAddressIncomplete
-                                        ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-primary dark:bg-light hover:bg-dark dark:hover:bg-lighter"
-                                    } text-white dark:text-black`}
-                onClick={(e) => {
-                  if (isAddressIncomplete) {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                Proceed to Checkout
-              </Link>
+              {/* Proceed to Checkout Button - Only show when authenticated */}
+              {isAuthenticated && (
+                <Link
+                  to={isAddressIncomplete ? "#" : "/checkout"}
+                  className={`py-2 px-4 text-xl font-semibold rounded-sm flex justify-center items-center transition
+                                      ${isAddressIncomplete
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-primary dark:bg-light hover:bg-dark dark:hover:bg-lighter"
+                    } text-white dark:text-black`}
+                  onClick={(e) => {
+                    if (isAddressIncomplete) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  Proceed to Checkout
+                </Link>
+              )}
+              {/* Login Prompt - Show when not authenticated */}
+              {!isAuthenticated && (
+                <Link
+                  to="/login"
+                  className="py-2 px-4 bg-primary dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
+                >
+                  Login to Checkout
+                </Link>
+              )}
             </div>
           </>
         ) : (
