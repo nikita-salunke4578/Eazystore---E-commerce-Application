@@ -88,7 +88,7 @@ export default function CheckoutForm() {
 
     try {
       const response = await apiClient.post("/payment/create-payment-intent", {
-        amount: totalPrice * 100,
+         amount: Math.round(totalPrice * 100),
         currency: "usd",
       });
 
