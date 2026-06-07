@@ -19,7 +19,7 @@ export default function Home() {
 
 export async function productsLoader() {
   try {
-   const response = await apiClient.get("api/v1/products");  // Axios GET Request
+   const response = await apiClient.get("/api/v1/products");  // Axios GET Request
     return response.data;
   } catch (error) {
     throw new Response(
