@@ -27,7 +27,7 @@ public class BaseEntity {
     private Instant createdAt;
 
     @CreatedBy
-    @Column(name = "created_by", nullable = false, length = 100, updatable = false)
+    @Column(name = "created_by", nullable = false, length = 255, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
